@@ -204,7 +204,16 @@ function App() {
       </section>
 
       <section className="after-hero" aria-label="Introduction">
-        <p>COMING SOON</p>
+        <div className="after-hero-content">
+          <p>COMING SOON</p>
+          <a
+            href="https://www.instagram.com/apartmento.club?igsh=ZzRhd2Zmb293c2sy"
+            target="_blank"
+            rel="noreferrer"
+          >
+            INSTAGRAM
+          </a>
+        </div>
       </section>
     </main>
   );

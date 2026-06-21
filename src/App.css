@@ -122,7 +122,9 @@ body.intro-is-active {
   stroke-opacity: 0.35;
   stroke-width: 5px;
   vector-effect: non-scaling-stroke;
-  transition: fill-opacity 160ms ease, stroke-opacity 160ms ease;
+  transition:
+    fill-opacity 160ms ease,
+    stroke-opacity 160ms ease;
 }
 
 .room-hotspot:hover polygon,
@@ -191,11 +193,26 @@ body.intro-is-active {
   background: var(--paper);
 }
 
+.after-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
 .after-hero p {
   margin: 0;
   font-size: clamp(32px, 7vw, 112px);
   font-weight: 700;
   letter-spacing: -0.06em;
+}
+
+.after-hero a {
+  color: inherit;
+  font-size: clamp(16px, 1.5vw, 24px);
+  font-weight: 700;
+  text-underline-offset: 0.2em;
 }
 
 @media (max-width: 1099px) {
