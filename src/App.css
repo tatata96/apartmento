@@ -15,6 +15,47 @@ body {
   overflow-x: hidden;
 }
 
+body.intro-is-active {
+  overflow: hidden;
+}
+
+.intro-overlay {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  overflow: hidden;
+}
+
+.intro-surface {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.intro-surface-fill {
+  fill: #050505;
+}
+
+.intro-reveal-hole {
+  r: 8%;
+  transition: r 2.3s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: r;
+}
+
+.intro-overlay.is-leaving .intro-reveal-hole {
+  r: 90%;
+}
+
+@media (max-width: 1099px) {
+  .intro-reveal-hole {
+    r: 18%;
+  }
+
+  .intro-overlay.is-leaving .intro-reveal-hole {
+    r: 100%;
+  }
+}
+
 .scroll-hero {
   height: 250svh;
   background: var(--paper);
@@ -182,6 +223,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .intro-overlay {
+    display: none;
+  }
+
   .scroll-hero {
     height: 100svh;
   }

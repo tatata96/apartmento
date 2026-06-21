@@ -23,6 +23,28 @@ function App() {
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<SVGSVGElement>(null);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
+  const [introVisible, setIntroVisible] = useState(
+    () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  const [introLeaving, setIntroLeaving] = useState(false);
+
+  useEffect(() => {
+    if (!introVisible) return;
+
+    document.body.classList.add("intro-is-active");
+
+    const leaveTimer = window.setTimeout(() => setIntroLeaving(true), 900);
+    const removeTimer = window.setTimeout(() => {
+      setIntroVisible(false);
+      document.body.classList.remove("intro-is-active");
+    }, 3300);
+
+    return () => {
+      window.clearTimeout(leaveTimer);
+      window.clearTimeout(removeTimer);
+      document.body.classList.remove("intro-is-active");
+    };
+  }, [introVisible]);
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -88,6 +110,36 @@ function App() {
 
   return (
     <main>
+      {introVisible && (
+        <div
+          className={`intro-overlay${introLeaving ? " is-leaving" : ""}`}
+          aria-hidden="true"
+        >
+          <svg
+            className="intro-surface"
+          >
+            <defs>
+              <mask id="intro-holes" maskUnits="userSpaceOnUse">
+                <rect width="100%" height="100%" fill="white" />
+                <circle
+                  className="intro-reveal-hole"
+                  cx="50%"
+                  cy="57.5%"
+                  r="8%"
+                  fill="black"
+                />
+              </mask>
+            </defs>
+            <rect
+              className="intro-surface-fill"
+              width="100%"
+              height="100%"
+              mask="url(#intro-holes)"
+            />
+          </svg>
+        </div>
+      )}
+
       <svg
         ref={titleRef}
         className="hero-title"
