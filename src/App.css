@@ -1,5 +1,5 @@
 :root {
-  --paper: hsl(65, 86%, 89%);
+  --paper: #efe058;
   --ink: #181714;
 }
 
@@ -38,6 +38,7 @@ body {
   z-index: -1;
   inset: 0;
   overflow: hidden;
+  -webkit-clip-path: circle(8% at 50% 57.5%);
   clip-path: circle(8% at 50% 57.5%);
   background: #c8c1b5;
   will-change: clip-path;
@@ -47,7 +48,7 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 100vh;
+  width: 100svh;
   height: 100vw;
   max-width: none;
   object-fit: cover;
@@ -74,18 +75,6 @@ body {
   font-size: 166px;
   font-weight: 800;
   letter-spacing: -5px;
-}
-
-.hero-eyebrow {
-  position: relative;
-  grid-row: 4;
-  justify-self: center;
-  margin: 0;
-  font-size: clamp(12px, 1vw, 16px);
-  line-height: 1;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  will-change: transform, opacity;
 }
 
 .hero-arrow {
@@ -131,6 +120,7 @@ body {
   }
 
   .hero-image-mask {
+    -webkit-clip-path: circle(18% at 50% 57.5%);
     clip-path: circle(18% at 50% 57.5%);
   }
 }
@@ -141,6 +131,7 @@ body {
   }
 
   .hero-image-mask {
+    -webkit-clip-path: inset(0);
     clip-path: inset(0);
   }
 
@@ -148,7 +139,6 @@ body {
     transform: translate(-50%, -50%) rotate(90deg) scale(1);
   }
 
-  .hero-eyebrow,
   .hero-arrow {
     opacity: 0;
   }

@@ -13,14 +13,13 @@ function App() {
     const stage = hero.querySelector<HTMLElement>(".hero-stage");
     const imageMask = hero.querySelector<HTMLElement>(".hero-image-mask");
     const image = hero.querySelector<HTMLImageElement>(".hero-image");
-    const eyebrow = hero.querySelector<HTMLElement>(".hero-eyebrow");
     const arrow = hero.querySelector<HTMLElement>(".hero-arrow");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
 
     const render = () => {
       frame = 0;
-      if (!stage || !imageMask || !image || !eyebrow || !arrow) return;
+      if (!stage || !imageMask || !image || !arrow) return;
 
       const scrollRange = Math.max(hero.offsetHeight - stage.offsetHeight, 1);
       const progress = reduceMotion.matches
@@ -50,11 +49,11 @@ function App() {
       const startWidth = window.innerWidth - startInset * 2;
       const endWidth = window.innerWidth < 700 ? 132 : 176;
 
-      imageMask.style.clipPath = `circle(${radius}% at 50% ${centerY}%)`;
+      const imageClip = `circle(${radius}% at 50% ${centerY}%)`;
+      imageMask.style.clipPath = imageClip;
+      imageMask.style.setProperty("-webkit-clip-path", imageClip);
       image.style.transform = `translate(-50%, -50%) rotate(90deg) scale(${1.1 - 0.1 * progress})`;
       image.style.objectPosition = `50% ${50 + 10 * progress}%`;
-      eyebrow.style.opacity = String(1 - textProgress);
-      eyebrow.style.transform = `translateY(${-110 * textProgress}%)`;
       arrow.style.opacity = String(1 - textProgress);
       arrow.style.transform = `translateY(${110 * textProgress}%)`;
       title.style.top = `${startInset + (endInset - startInset) * titleProgress}px`;
