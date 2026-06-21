@@ -36,8 +36,9 @@ body {
 .hero-image-mask {
   position: absolute;
   z-index: -1;
-  inset: 0;
+  inset: 16px;
   overflow: hidden;
+  border: 2px solid var(--ink);
   -webkit-clip-path: circle(8% at 50% 57.5%);
   clip-path: circle(8% at 50% 57.5%);
   background: #c8c1b5;
@@ -51,9 +52,58 @@ body {
   width: 100svh;
   height: 100vw;
   max-width: none;
-  object-fit: cover;
+  overflow: hidden;
   transform: translate(-50%, -50%) rotate(90deg) scale(1.1);
   will-change: transform;
+}
+
+.room-hotspot {
+  cursor: pointer;
+  outline: none;
+}
+
+.room-hotspot--bathroom {
+  color: #2474ff;
+}
+
+.room-hotspot--kitchen {
+  color: #ef3d58;
+}
+
+.room-hotspot--living-room {
+  color: #34a853;
+}
+
+.room-hotspot polygon {
+  fill: currentColor;
+  fill-opacity: 0.14;
+  stroke: currentColor;
+  stroke-opacity: 0.35;
+  stroke-width: 5px;
+  vector-effect: non-scaling-stroke;
+  transition: fill-opacity 160ms ease, stroke-opacity 160ms ease;
+}
+
+.room-hotspot:hover polygon,
+.room-hotspot:focus polygon,
+.room-hotspot.is-selected polygon {
+  fill-opacity: 0.42;
+  stroke-opacity: 1;
+}
+
+.room-status {
+  position: absolute;
+  z-index: 2;
+  right: 24px;
+  bottom: 20px;
+  margin: 0;
+  padding: 8px 12px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: rgb(239 224 88 / 88%);
+  font-size: 14px;
+  font-weight: 700;
+  pointer-events: none;
 }
 
 .hero-title {
@@ -120,8 +170,14 @@ body {
   }
 
   .hero-image-mask {
+    inset: 12px;
     -webkit-clip-path: circle(18% at 50% 57.5%);
     clip-path: circle(18% at 50% 57.5%);
+  }
+
+  .room-status {
+    right: 16px;
+    bottom: 16px;
   }
 }
 

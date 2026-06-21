@@ -1,9 +1,28 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import "./App.css";
+
+const rooms = [
+  {
+    id: "bathroom",
+    name: "Bathroom",
+    points: "22,16 357,16 357,325 22,325",
+  },
+  {
+    id: "kitchen",
+    name: "Kitchen",
+    points: "381,16 713,16 713,361 454,361 454,349 381,349",
+  },
+  {
+    id: "living-room",
+    name: "Living room",
+    points: "22,349 374,349 374,272 454,272 454,361 713,361 713,839 22,839",
+  },
+] as const;
 
 function App() {
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<SVGSVGElement>(null);
+  const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -12,7 +31,7 @@ function App() {
 
     const stage = hero.querySelector<HTMLElement>(".hero-stage");
     const imageMask = hero.querySelector<HTMLElement>(".hero-image-mask");
-    const image = hero.querySelector<HTMLImageElement>(".hero-image");
+    const image = hero.querySelector<SVGSVGElement>(".hero-image");
     const arrow = hero.querySelector<HTMLElement>(".hero-arrow");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0;
@@ -32,17 +51,7 @@ function App() {
       const radius = startRadius + (71 - startRadius) * progress;
       const centerY = 57.5 - 7.5 * progress;
       const textProgress = Math.min(progress / 0.3, 1);
-      const titleStart = hero.offsetTop + scrollRange;
-      const rawTitleProgress = reduceMotion.matches
-        ? 1
-        : Math.min(
-            Math.max(
-              (window.scrollY - titleStart) / (window.innerHeight * 0.5),
-              0,
-            ),
-            1,
-          );
-      const titleProgress = 1 - Math.pow(1 - rawTitleProgress, 3);
+      const titleProgress = progress;
       const mobile = window.innerWidth < 1100;
       const startInset = mobile ? 16 : 24;
       const endInset = 16;
@@ -53,7 +62,6 @@ function App() {
       imageMask.style.clipPath = imageClip;
       imageMask.style.setProperty("-webkit-clip-path", imageClip);
       image.style.transform = `translate(-50%, -50%) rotate(90deg) scale(${1.1 - 0.1 * progress})`;
-      image.style.objectPosition = `50% ${50 + 10 * progress}%`;
       arrow.style.opacity = String(1 - textProgress);
       arrow.style.transform = `translateY(${110 * textProgress}%)`;
       title.style.top = `${startInset + (endInset - startInset) * titleProgress}px`;
@@ -101,9 +109,41 @@ function App() {
 
       <section className="scroll-hero" ref={heroRef}>
         <div className="hero-stage">
-          <div className="hero-image-mask" aria-hidden="true">
-            <img className="hero-image" src="/plan.jpeg" alt="" />
+          <div className="hero-image-mask">
+            <svg
+              className="hero-image"
+              viewBox="0 0 735 859"
+              preserveAspectRatio="xMidYMid slice"
+              role="group"
+              aria-label="Interactive apartment floor plan"
+            >
+              <image href="/plan.jpeg" width="735" height="859" />
+
+              {rooms.map((room) => (
+                <g
+                  key={room.id}
+                  className={`room-hotspot room-hotspot--${room.id}${selectedRoom === room.name ? " is-selected" : ""}`}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Select ${room.name}`}
+                  onClick={() => setSelectedRoom(room.name)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setSelectedRoom(room.name);
+                    }
+                  }}
+                >
+                  <polygon points={room.points} />
+                  <title>{room.name}</title>
+                </g>
+              ))}
+            </svg>
           </div>
+
+          <p className="room-status" aria-live="polite">
+            {selectedRoom ? `${selectedRoom} selected` : "Select a room"}
+          </p>
 
           <svg className="hero-arrow" viewBox="0 0 10 28" aria-hidden="true">
             <path d="M5 1v24M1 20l4 6 4-6" />
