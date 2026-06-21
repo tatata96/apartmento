@@ -106,8 +106,6 @@ function App() {
             <img className="hero-image" src="/plan.jpeg" alt="" />
           </div>
 
-          <p className="hero-eyebrow">make it exist</p>
-
           <svg className="hero-arrow" viewBox="0 0 10 28" aria-hidden="true">
             <path d="M5 1v24M1 20l4 6 4-6" />
           </svg>
